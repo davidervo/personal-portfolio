@@ -21,7 +21,7 @@ export default function ProjectCard({ project }: Props) {
       </div>
       <div className="mt-4 space-y-1">
         <p className="text-sm text-neutral-500">{project.client}</p>
-        <h3 className="text-lg font-medium text-neutral-900">{project.title}</h3>
+        <h3 className="text-lg font-bold text-neutral-900">{project.title}</h3>
         <p className="text-sm text-neutral-600">{project.tagline}</p>
       </div>
     </>

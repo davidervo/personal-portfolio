@@ -14,7 +14,7 @@ export default function WorkPage() {
 
   return (
     <>
-      <h1 className="mb-10 text-3xl font-medium tracking-tight text-neutral-900">Work</h1>
+      <h1 className="mb-10 text-3xl font-bold tracking-tight text-neutral-900">Work</h1>
       {showSplit ? (
         <>
           <section>

@@ -10,8 +10,8 @@ export default function HomePage() {
       <section className="flex min-h-[50vh] flex-col justify-center gap-6 py-12">
         <HeroHeading>
           Interaction designer with{" "}
-          <strong className="font-semibold text-neutral-900">18 years</strong> of experience
-          shaping how people use <strong className="font-semibold text-neutral-900">software</strong>.
+          <strong className="font-extrabold text-neutral-900">18 years</strong> of experience
+          shaping how people use <strong className="font-extrabold text-neutral-900">software</strong>.
         </HeroHeading>
         <p className="max-w-xl text-lg text-neutral-600">
           Working across product, brand, and service design — most recently leading design at an

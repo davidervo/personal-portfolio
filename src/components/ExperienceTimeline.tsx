@@ -18,7 +18,7 @@ export default function ExperienceTimeline({ entries }: Props) {
           </p>
           <div className="space-y-4">
             <div className="space-y-2">
-              <h3 className="text-lg font-medium text-neutral-900">
+              <h3 className="text-lg font-bold text-neutral-900">
                 {entry.role} <span className="text-neutral-500">— {entry.company}</span>
               </h3>
               <p className="text-neutral-600">{entry.description}</p>

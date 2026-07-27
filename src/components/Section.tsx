@@ -14,7 +14,7 @@ interface Props {
 export default function Section({ label, children, className = "" }: Props) {
   return (
     <section className={`grid grid-cols-1 gap-6 sm:grid-cols-[8rem_1fr] sm:gap-10 ${className}`}>
-      <h2 className="text-sm text-neutral-500">{label}</h2>
+      <h2 className="text-sm font-normal text-neutral-500">{label}</h2>
       <div>{children}</div>
     </section>
   );

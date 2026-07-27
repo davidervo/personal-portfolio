@@ -17,7 +17,7 @@ export default function PostCard({ post, aspect = "aspect-[4/5]" }: Props) {
         <p className="text-xs text-neutral-500">
           {post.date} · {post.tag}
         </p>
-        <h3 className="text-lg font-medium text-neutral-900">{post.title}</h3>
+        <h3 className="text-lg font-bold text-neutral-900">{post.title}</h3>
       </div>
     </Link>
   );

@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Inter } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import NextPageLink from "@/components/NextPageLink";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Inter — an open-license grotesque widely considered the closest
+// structural match to SF Pro Display, so it reads the same across every
+// OS/browser without SF Pro's app-only licensing restriction. Variable
+// font, so the full weight range (100–900) is available.
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
@@ -24,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         <Header />
         <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">

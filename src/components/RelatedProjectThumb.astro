@@ -1,0 +1,35 @@
+---
+import { urlFor } from '@/lib/sanity'
+import { isLinkable } from '@/lib/types'
+import type { ProjectCard } from '@/lib/types'
+
+interface Props {
+  project: ProjectCard
+}
+
+const { project } = Astro.props
+const linkable = isLinkable(project)
+const imageUrl = project.coverImage
+  ? urlFor(project.coverImage).width(320).height(320).fit('crop').url()
+  : undefined
+const Tag = linkable ? 'a' : 'div'
+---
+
+<Tag href={linkable ? `/work/${project.slug}` : undefined} class="group block">
+  <div class="aspect-square overflow-hidden rounded-md bg-neutral-100">
+    {
+      imageUrl && (
+        <img
+          src={imageUrl}
+          alt={project.coverImage.alt ?? ''}
+          class:list={[
+            'h-full w-full object-cover transition-transform duration-500',
+            linkable && 'group-hover:scale-105',
+          ]}
+          loading="lazy"
+        />
+      )
+    }
+  </div>
+  <p class="mt-2 text-xs text-neutral-500">{project.title}</p>
+</Tag>

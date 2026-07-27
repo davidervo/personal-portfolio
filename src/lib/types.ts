@@ -75,6 +75,37 @@ export interface About {
   experience?: ExperienceEntry[]
 }
 
+export interface Home {
+  heroHeading: PortableTextBlock[]
+  heroSubheading?: string
+  featuredSectionTitle?: string
+}
+
+export interface Post {
+  _id: string
+  title: string
+  slug: string
+  coverImage?: SanityImage
+  excerpt: string
+  tags?: string[]
+  publishedAt: string
+  body?: PortableTextBlock[]
+}
+
+export type PostCard = Pick<Post, '_id' | 'title' | 'slug' | 'coverImage' | 'excerpt' | 'publishedAt' | 'tags'>
+
+export interface ServiceOffering {
+  title: string
+  description?: string
+}
+
+export interface Services {
+  intro: string
+  offerings?: ServiceOffering[]
+  ctaLabel?: string
+  ctaHref?: string
+}
+
 /** True once a project has enough content to be a linked case study, per README teaser logic. */
 export function isLinkable(project: Pick<Project, 'body' | 'visibility'>): boolean {
   return Boolean(project.body && project.body.length > 0) && project.visibility !== 'onRequest'

@@ -36,3 +36,25 @@ export const ABOUT_QUERY = /* groq */ `
     }
   }
 `
+
+export const HOME_QUERY = /* groq */ `
+  *[_type == "home"][0] { heroHeading, heroSubheading, featuredSectionTitle }
+`
+
+export const POST_CARD_FIELDS = /* groq */ `
+  _id, title, "slug": slug.current, coverImage, excerpt, tags, publishedAt
+`
+
+export const POSTS_QUERY = /* groq */ `
+  *[_type == "post"] | order(publishedAt desc) { ${POST_CARD_FIELDS} }
+`
+
+export const POST_BY_SLUG_QUERY = /* groq */ `
+  *[_type == "post" && slug.current == $slug][0] {
+    _id, title, "slug": slug.current, coverImage, excerpt, tags, publishedAt, body
+  }
+`
+
+export const SERVICES_QUERY = /* groq */ `
+  *[_type == "services"][0] { intro, offerings, ctaLabel, ctaHref }
+`

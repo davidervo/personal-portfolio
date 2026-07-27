@@ -28,12 +28,13 @@ This repo doesn't include a Sanity project — create one and point the app at i
    origin, with credentials enabled — required for the embedded Studio to
    authenticate.
 4. Run `npm run dev` and open `/studio` to sign in and start adding content.
-   The `About` page document is pinned as a singleton — there's no "Create"
-   button for it, only one can exist.
+   `About`, `Home`, and `Services` are pinned as singletons — there's no
+   "Create" button for them, only one of each can exist.
 
 Schema source lives in `/schemas` (`project.ts`, `about.ts`,
-`experienceEntry.ts`), registered in `sanity.config.ts` at the repo root. The
-desk structure that pins `about` as a singleton is in `deskStructure.ts`.
+`experienceEntry.ts`, `home.ts`, `post.ts`, `services.ts`), registered in
+`sanity.config.ts` at the repo root. The desk structure that pins the
+singletons is in `deskStructure.ts`.
 
 ## Environment variables
 
@@ -61,9 +62,10 @@ gated pages.
 ## Project structure
 
 ```
-schemas/            Sanity schema types (project, about, experienceEntry)
+schemas/            Sanity schema types (project, about, experienceEntry,
+                     home, post, services)
 sanity.config.ts     Sanity Studio config (root, per @sanity/astro convention)
-deskStructure.ts     Desk structure — pins `about` as a singleton
+deskStructure.ts     Desk structure — pins about/home/services as singletons
 src/
   layouts/           Base page layout (header, footer, next-page link)
   components/        Shared Astro/React components
@@ -74,26 +76,29 @@ src/
 ## Sitemap
 
 ```
-Home
-Work (index)
-  └─ Project detail (case study template)
-About (bio + work-experience timeline)
-Services ("work with me")
-Writing (blog index)
-  └─ Blog post
+Home                    hero (home.ts singleton) + featured work grid
+Work (index)            grouped Case studies / More work when `featured` is mixed
+  └─ Project detail     case study template (teaser / public / protected)
+About                   bio + work-experience timeline (thumbnail grid per role)
+Services                intro + offerings + CTA (services.ts singleton)
+Writing (index)         masonry post grid
+  └─ Blog post          post.ts: title, slug, cover, excerpt, body, tags, date
 Contact
 ```
 
-`Services`, `Writing`, and `Home` currently render placeholder copy — their
-content models are still open decisions (see below) and haven't been wired
-to Sanity yet.
+Home, Services, and the blog (`post.ts`) are first, reasonable versions built
+from guglieri.com as a structural reference (hero typography, featured-work
+grid, timeline thumbnails, masonry writing index) — **not** its kinetic
+word-by-word headline animation or live clock, which the brief explicitly
+rejected. Services has no direct reference on that site (no equivalent page
+there) — its copy/structure is the least-grounded piece here and the most
+worth revisiting.
 
 ## Open decisions
 
-Not yet finalized — confirm before building further:
+Confirm before finalizing:
 
-- Services page copy and structure
-- Blog post schema specifics
-- Home page layout and hero content
+- Services page copy and structure (built generic — intro, offerings, CTA)
+- Home hero copy (`home` singleton — currently empty/fallback until filled in via Studio)
 - Visual design tokens: color palette, typeface pairing, spacing scale (the
   current styling is placeholder — `src/styles/global.css`)

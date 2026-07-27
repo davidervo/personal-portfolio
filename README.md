@@ -21,8 +21,12 @@ This repo doesn't include a Sanity project — create one and point the app at i
 
 1. [Create a Sanity project](https://www.sanity.io/manage) (or `npx sanity@latest init` from this
    folder, which can also scaffold the dataset for you).
-2. Copy `.env.example` to `.env` and fill in `SANITY_PROJECT_ID` and
-   `SANITY_DATASET` (defaults to `production`).
+2. Copy `.env.example` to `.env` and fill in `PUBLIC_SANITY_PROJECT_ID` and
+   `PUBLIC_SANITY_DATASET` (defaults to `production`). These are `PUBLIC_`-
+   prefixed on purpose — the embedded Studio runs client-side in the browser,
+   so its project ID/dataset need to be in the browser bundle. That's fine:
+   neither is a secret (Sanity's client-side API is designed to be called
+   from the browser with just these two values).
 3. In the Sanity project's [CORS settings](https://www.sanity.io/manage), add
    `http://localhost:4321` (and your deployed domain later) as an allowed
    origin, with credentials enabled — required for the embedded Studio to
@@ -39,14 +43,16 @@ singletons is in `deskStructure.ts`.
 ## Environment variables
 
 ```
-SANITY_PROJECT_ID=        # from sanity.io/manage
-SANITY_DATASET=production
+PUBLIC_SANITY_PROJECT_ID= # from sanity.io/manage — not a secret, safe client-side
+PUBLIC_SANITY_DATASET=production
 SANITY_API_VERSION=2024-01-01
-PORTFOLIO_PASSWORD=       # sitewide password for protected case studies
+PORTFOLIO_PASSWORD=       # sitewide password for protected case studies — server-only, keep unprefixed
 ```
 
-Set the same values in the Vercel project settings for preview/production
-deploys.
+Set the same values in the Vercel project's Environment Variables (Settings →
+Environment Variables), checked for whichever environments you deploy to
+(Production and/or Preview). Changing env vars doesn't rebuild an existing
+deployment — redeploy after adding/editing them.
 
 ## Password-protected case studies
 

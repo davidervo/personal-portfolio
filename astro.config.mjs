@@ -20,8 +20,8 @@ export default defineConfig({
   integrations: [
     react(),
     sanity({
-      projectId: process.env.SANITY_PROJECT_ID ?? '',
-      dataset: process.env.SANITY_DATASET ?? 'production',
+      projectId: process.env.PUBLIC_SANITY_PROJECT_ID ?? '',
+      dataset: process.env.PUBLIC_SANITY_DATASET ?? 'production',
       apiVersion: process.env.SANITY_API_VERSION ?? '2024-01-01',
       studioBasePath: '/studio',
       useCdn: false,

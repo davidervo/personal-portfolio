@@ -10,8 +10,11 @@ export default defineConfig({
   name: 'default',
   title: 'Portfolio',
 
-  projectId: process.env.SANITY_PROJECT_ID ?? '',
-  dataset: process.env.SANITY_DATASET ?? 'production',
+  // This config is bundled into the Studio's client-side (browser) app, so it
+  // needs Vite's PUBLIC_-prefixed env vars — `process.env` doesn't exist in
+  // the browser, and plain (unprefixed) import.meta.env vars are server-only.
+  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? '',
+  dataset: import.meta.env.PUBLIC_SANITY_DATASET ?? 'production',
 
   plugins: [structureTool({ structure }), visionTool()],
 

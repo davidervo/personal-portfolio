@@ -1,0 +1,43 @@
+---
+import { isLinkable } from '@/lib/types'
+import type { ExperienceEntry } from '@/lib/types'
+
+interface Props {
+  entries: ExperienceEntry[]
+}
+
+const { entries } = Astro.props
+---
+
+<ol class="divide-y divide-neutral-200 border-t border-neutral-200">
+  {
+    entries.map((entry) => (
+      <li class="grid grid-cols-1 gap-2 py-8 sm:grid-cols-[8rem_1fr]">
+        <p class="text-sm text-neutral-500">
+          {entry.startDate} – {entry.endDate || 'Present'}
+        </p>
+        <div class="space-y-2">
+          <h3 class="text-lg font-medium text-neutral-900">
+            {entry.role} <span class="text-neutral-500">— {entry.company}</span>
+          </h3>
+          {entry.description && <p class="text-neutral-600">{entry.description}</p>}
+          {entry.relatedProjects && entry.relatedProjects.length > 0 && (
+            <ul class="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-sm">
+              {entry.relatedProjects.map((project) =>
+                isLinkable(project) ? (
+                  <li>
+                    <a href={`/work/${project.slug}`} class="text-neutral-700 underline underline-offset-4 hover:text-neutral-900">
+                      {project.title}
+                    </a>
+                  </li>
+                ) : (
+                  <li class="text-neutral-400">{project.title}</li>
+                ),
+              )}
+            </ul>
+          )}
+        </div>
+      </li>
+    ))
+  }
+</ol>

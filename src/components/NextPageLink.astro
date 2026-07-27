@@ -1,0 +1,22 @@
+---
+import { getNextPage } from '@/lib/nav'
+
+const next = getNextPage(Astro.url.pathname)
+---
+
+{
+  next && (
+    <a
+      href={next.href}
+      class="group flex items-center justify-between border-t border-neutral-200 py-10 text-neutral-900"
+    >
+      <span class="text-sm text-neutral-500">Next</span>
+      <span class="flex items-center gap-2 text-lg font-medium">
+        {next.label}
+        <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">
+          →
+        </span>
+      </span>
+    </a>
+  )
+}

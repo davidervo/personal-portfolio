@@ -1,0 +1,99 @@
+# Portfolio
+
+Personal portfolio + blog. Astro, Tailwind, React islands (Framer Motion, GSAP
+for scroll-driven case studies), Sanity Studio embedded at `/studio`, deployed
+on Vercel.
+
+## Getting started
+
+```bash
+npm install
+cp .env.example .env   # fill in your Sanity project ID (see below)
+npm run dev
+```
+
+- Site: http://localhost:4321
+- Sanity Studio: http://localhost:4321/studio
+
+## Sanity project setup
+
+This repo doesn't include a Sanity project — create one and point the app at it:
+
+1. [Create a Sanity project](https://www.sanity.io/manage) (or `npx sanity@latest init` from this
+   folder, which can also scaffold the dataset for you).
+2. Copy `.env.example` to `.env` and fill in `SANITY_PROJECT_ID` and
+   `SANITY_DATASET` (defaults to `production`).
+3. In the Sanity project's [CORS settings](https://www.sanity.io/manage), add
+   `http://localhost:4321` (and your deployed domain later) as an allowed
+   origin, with credentials enabled — required for the embedded Studio to
+   authenticate.
+4. Run `npm run dev` and open `/studio` to sign in and start adding content.
+   The `About` page document is pinned as a singleton — there's no "Create"
+   button for it, only one can exist.
+
+Schema source lives in `/schemas` (`project.ts`, `about.ts`,
+`experienceEntry.ts`), registered in `sanity.config.ts` at the repo root. The
+desk structure that pins `about` as a singleton is in `deskStructure.ts`.
+
+## Environment variables
+
+```
+SANITY_PROJECT_ID=        # from sanity.io/manage
+SANITY_DATASET=production
+SANITY_API_VERSION=2024-01-01
+PORTFOLIO_PASSWORD=       # sitewide password for protected case studies
+```
+
+Set the same values in the Vercel project settings for preview/production
+deploys.
+
+## Password-protected case studies
+
+Projects with `visibility: protected` render a password gate
+(`src/components/PasswordGate.astro`) instead of the case study. Submitting
+the form posts to `src/pages/api/unlock.ts`, which checks the password
+against the project's `password` override field if set, otherwise the
+sitewide `PORTFOLIO_PASSWORD`, and sets an httpOnly cookie on success. Because
+of this, the app runs in `server` output mode (see `astro.config.mjs`) rather
+than static — the whole site is server-rendered on Vercel, not just the
+gated pages.
+
+## Project structure
+
+```
+schemas/            Sanity schema types (project, about, experienceEntry)
+sanity.config.ts     Sanity Studio config (root, per @sanity/astro convention)
+deskStructure.ts     Desk structure — pins `about` as a singleton
+src/
+  layouts/           Base page layout (header, footer, next-page link)
+  components/        Shared Astro/React components
+  lib/                Sanity client, GROQ queries, shared types
+  pages/              Routes — see sitemap below
+```
+
+## Sitemap
+
+```
+Home
+Work (index)
+  └─ Project detail (case study template)
+About (bio + work-experience timeline)
+Services ("work with me")
+Writing (blog index)
+  └─ Blog post
+Contact
+```
+
+`Services`, `Writing`, and `Home` currently render placeholder copy — their
+content models are still open decisions (see below) and haven't been wired
+to Sanity yet.
+
+## Open decisions
+
+Not yet finalized — confirm before building further:
+
+- Services page copy and structure
+- Blog post schema specifics
+- Home page layout and hero content
+- Visual design tokens: color palette, typeface pairing, spacing scale (the
+  current styling is placeholder — `src/styles/global.css`)

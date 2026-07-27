@@ -1,19 +1,18 @@
-import { PortableText, type PortableTextComponents } from '@portabletext/react'
-import type { PortableTextBlock } from '@portabletext/react'
+import type { ReactNode } from "react";
 
-const components: PortableTextComponents = {
-  block: {
-    normal: ({ children }) => <>{children} </>,
-  },
-  marks: {
-    strong: ({ children }) => <strong className="font-semibold text-neutral-900">{children}</strong>,
-  },
+interface Props {
+  children: ReactNode;
 }
 
-export default function HeroHeading({ value }: { value: PortableTextBlock[] }) {
+/**
+ * Large, mixed-weight hero statement — base text in a lighter neutral,
+ * emphasized words in bold black. Static markup for now (no CMS rich text
+ * wired up), styling matches the guglieri.com reference.
+ */
+export default function HeroHeading({ children }: Props) {
   return (
     <h1 className="max-w-3xl text-4xl font-normal leading-tight tracking-tight text-neutral-500 sm:text-5xl">
-      <PortableText value={value} components={components} />
+      {children}
     </h1>
-  )
+  );
 }

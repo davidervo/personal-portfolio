@@ -6,6 +6,18 @@
 
 import { defineType, defineField, defineArrayMember } from 'sanity'
 
+// Shared by the body's `block`/`image` entries and by the two-column
+// layout's column content, so columns can hold the same normal
+// paragraphs/images the rest of the body does (just not nested columns).
+const bodyContentMembers = [
+  defineArrayMember({ type: 'block' }),
+  defineArrayMember({
+    type: 'image',
+    options: { hotspot: true },
+    fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
+  }),
+]
+
 export default defineType({
   name: 'project',
   title: 'Project',
@@ -179,12 +191,7 @@ export default defineType({
       group: 'story',
       description: 'The full story. Leave empty for now, write it later — same document.',
       of: [
-        defineArrayMember({ type: 'block' }),
-        defineArrayMember({
-          type: 'image',
-          options: { hotspot: true },
-          fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
-        }),
+        ...bodyContentMembers,
         defineArrayMember({
           type: 'object',
           name: 'pullQuote',
@@ -195,6 +202,72 @@ export default defineType({
           ],
           preview: {
             select: { title: 'quote' },
+          },
+        }),
+        defineArrayMember({
+          type: 'object',
+          name: 'twoColumn',
+          title: 'Two columns',
+          description: 'Side-by-side columns — mix text and images freely in each',
+          fields: [
+            defineField({
+              name: 'left',
+              title: 'Left column',
+              type: 'array',
+              of: bodyContentMembers,
+            }),
+            defineField({
+              name: 'right',
+              title: 'Right column',
+              type: 'array',
+              of: bodyContentMembers,
+            }),
+          ],
+          preview: {
+            prepare() {
+              return { title: 'Two columns' }
+            },
+          },
+        }),
+        defineArrayMember({
+          type: 'object',
+          name: 'imageGrid',
+          title: 'Image grid',
+          fields: [
+            defineField({
+              name: 'columns',
+              title: 'Columns',
+              type: 'string',
+              options: {
+                list: [
+                  { title: '2 columns', value: '2' },
+                  { title: '3 columns', value: '3' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: '2',
+            }),
+            defineField({
+              name: 'images',
+              title: 'Images',
+              type: 'array',
+              of: [
+                defineArrayMember({
+                  type: 'image',
+                  options: { hotspot: true },
+                  fields: [
+                    defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
+                    defineField({ name: 'caption', title: 'Caption', type: 'string' }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+          preview: {
+            select: { media: 'images.0', columns: 'columns' },
+            prepare({ media, columns }) {
+              return { title: `Image grid (${columns ?? '2'} columns)`, media }
+            },
           },
         }),
       ],
